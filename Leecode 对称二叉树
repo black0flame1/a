@@ -1,0 +1,51 @@
+/** * Definition for a binary tree node. 
+* public class TreeNode { 
+* int val; 
+* TreeNode left; 
+* TreeNode right;
+* TreeNode(int x) { val = x; } 
+* } 
+*/
+class Solution { 
+  public boolean isSymmetric(TreeNode root) { 
+      List<List<Integer>> ret = levelOrder(root); 
+      for(List<Integer> list : ret) { 
+          int l = 0, r = 0; 
+          int size = list.size(); 
+          if(size == 0) { 
+              return false; 
+          } 
+          if(size == 1) { 
+              continue; 
+          }
+          l = size % 2 == 0 ? (size - 1) / 2 : (size - 1) / 2 - 1;
+          r = size % 2 == 0 ? l + 1 : l + 2; 
+          while(l >= 0 && r < list.size()) { 
+              if(list.get(l) != list.get(r)){ 
+                  return false; 
+              } 
+              l--; 
+              r++; 
+          }
+      }
+      return true; 
+  } 
+  public int depth; 
+  public List<List<Integer>> levelOrder(TreeNode root) {
+      List<List<Integer>> ret = new ArrayList<List<Integer>>(10);
+      depth(root, 1); levelOrder(root, 1, ret); 
+      return ret; 
+  }
+  public void levelOrder(TreeNode root, int level, List<List<Integer>> list) { 
+      if(level < 1 || level > depth) return;
+      if(level > list.size()){ 
+          List<Integer> list2 = new ArrayList<Integer>();
+          list.add(list2); 
+      } 
+      if(root == null) {
+          list.get(level - 1).add(null);
+          return; 
+      } 
+      else {
+          list.get(level - 1).add(root.val); 
+      } 
